@@ -62,3 +62,12 @@ type
 ```
 $ ./upload.py < examples/lmx_lock.py
 ```
+
+## Internals
+
+You can find the internal of the python object [here]
+(https://github.com/bkoppelmann/micropython/tree/b0d8c69e8fa030aa05168c5b6f820bab321caf6f/ports/arty)
+
+- [SPI]
+  (https://github.com/bkoppelmann/micropython/blob/b0d8c69e8fa030aa05168c5b6f820bab321caf6f/ports/arty/modpybspi.c)
+- [PULPINO](https://github.com/bkoppelmann/micropython/blob/b0d8c69e8fa030aa05168c5b6f820bab321caf6f/ports/arty/modpybpulpino.c)
