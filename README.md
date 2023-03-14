@@ -1,12 +1,4 @@
-# Micropython Controller for LMX2594 using the Hifive1 RISC-V board
-
-## Board Wiring
-5 wires of the LMX2594's SPI interface have to be connected to the Hifive1: GND, SCLK, MISO,
-MOSI, and CS. The picture below shows where these wires have to be connected to
-the Hifive1. The pinout of the LMX2594 can be found in the [documentation](http://www.ti.com/lit/ug/snau210/snau210.pdf) of TI. For the CS bin you need to select one GPIO. You need to remember that pin number if you want to use SPI in python.
-<p align="center">
-<img src="https://github.com/bkoppelmann/lmx2594-mp/blob/master/wiring.svg">
-</p>
+# Micropython Controller for testing [Oldwyk](https://github.com/hni-sct/pulpino-sdk#oldwyk)
 
 ## Building the Toolchain
 First download the submodules by typing
@@ -45,30 +37,22 @@ Type "help()" for more information.
 >>>
 ```
 If not, press the reset button on the board or type `make upload` again.
-To interact with the LMX first import the `python board library` (pyb)  by
+To interact with Oldwyk first import the `python board library` (pyb)  by
 typing on the REPL:
 ```
 >>> import pyb
 ```
-Then create an SPI interface using a CS pin 2 (if you selected another pin
-during wiring, replace the 2 with that pin) and a maximum SPI frequency of
-10000.
+then create an SPI interface using a CS pin 7 (if you selected another pin
+during wiring, replace the 7 with that pin) and a maximum SPI frequency of
+25 Mhz.
 ```
->>> spi = pyb.SPI(2, 10000)
+>>> spi = pyb.SPI(7, 2500000, 0, 0)
 ```
-Now you can use that interface to write SPI messages to the LMX2594
+Now you can toggle the LED:
 ```
->>> spi.write(2, 0x500)
-```
-which writes 0x500 to register 2 of the LMX2594. 
-To make the LMX2594 lock you need to create an LMX2594 object and give it an SPI
-interface
-```
->>> lmx = LMX2594(spi)
-```
-and then run reset on that
-```
->>> lmx.reset()
+>>> spi.write_mem(0x1A101000, (1 << 10))
+>>> spi.write_mem(0x1A101008, (1 << 10))
+>>> spi.write_mem(0x1A101008, 0)
 ```
 
 ## Upload micropython scripts
